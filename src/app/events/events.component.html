@@ -1,0 +1,18 @@
+<h2>Events</h2>
+
+<div id="events_add">
+  <label>Task:
+    <select [(ngModel)]="ev.task.name">
+      <option *ngFor="let t of TASKS" [value]="t">{{t.name}}</option>
+    </select>
+  </label>
+  <input type="submit" id="saveEvent" value="Save"/>
+</div>
+
+<div id="events" *ngIf="events">
+  <li *ngFor="let ev of events" >
+    <h2>{{ev.id}}</h2><br>
+    <h2>{{ev.task.name}}</h2><br>
+    <h2>{{ev.t.xp}}</h2><br>
+  </li>
+</div>
