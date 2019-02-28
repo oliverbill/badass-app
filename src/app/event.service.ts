@@ -1,15 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
+import { Task } from './tasks/task';
+import { Event } from './event';
+import { EVENTS } from './mock-events';
+import { Observable,of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  constructor() { }
+  private eventUrl = 'api/events';
+  HTTP_OPTIONS = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
+  constructor(private http: HttpClient) { }
 
   getEvents(): Observable<Event[]>{
-    return of(new Event(1,'Eduardo',new Task(id:1,name:'to complete a SHORT issue with successful PRW',xp:2)));
+    return of(EVENTS);
+  }
+
+  save(event: Event): Observable<any>{
+      return this.http.put(this.eventUrl, event, this.HTTP_OPTIONS)
+        .pipe(
+              tap(_ => this.log(`saved event`)),
+              catchError(this.handleError<any>('saveEvent'))
+            );
+  }
+
+    /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  /** Log a HeroService message with the MessageService */
+  private log(message: string) {
+    //this.messageService.add(`HeroService: ${message}`);
+    console.log(message);
   }
 }

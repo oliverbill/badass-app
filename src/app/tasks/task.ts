@@ -1,3 +1,4 @@
-export class Task{
-  constructor(private id: number,private name: string,private xp: number){}
+export class Task{  
+  name: string;
+  xp: number;
 }

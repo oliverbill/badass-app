@@ -1,18 +1,27 @@
-<h2>Events</h2>
-
 <div id="events_add">
+  <h4>Add Event</h4>
   <label>Task:
-    <select [(ngModel)]="ev.task.name">
-      <option *ngFor="let t of TASKS" [value]="t">{{t.name}}</option>
+    <select [(ngModel)]="taskName">
+      <option *ngFor="let t of tasks" [value]="t">{{t.name}}</option>
     </select>
   </label>
-  <input type="submit" id="saveEvent" value="Save"/>
+  <br>
+  <label>Player
+    <input type="text" value="{{player}}"/>
+  </label>
+  <br>
+  <button (click)="save()" value="Save">Save</button>
 </div>
 
 <div id="events" *ngIf="events">
-  <li *ngFor="let ev of events" >
-    <h2>{{ev.id}}</h2><br>
-    <h2>{{ev.task.name}}</h2><br>
-    <h2>{{ev.t.xp}}</h2><br>
-  </li>
+  <h4>Events</h4>
+  <ul class="events">
+    <li *ngFor="let ev of events" >
+      <span class="badge">ID:</span>{{ev.id}}<br>
+      <span class="badge">Task:</span>{{ev.task.name}}<br>
+      <span class="badge">XP:</span>{{ev.task.xp}}<br>
+    </li>
+  </ul>
 </div>
+
+<button (click)="goBack()">go back</button>
